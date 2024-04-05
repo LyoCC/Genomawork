@@ -1,9 +1,13 @@
 from fastapi import FastAPI
-from app.places.placesRoutes import placesRoutes
 from fastapi.middleware.cors import CORSMiddleware
+
+from app.places.placesRoutes import placesRoutes
+from app.seeds.seedsRoutes import seedsRoutes
+
 
 app = FastAPI()
 app.include_router(placesRoutes)
+app.include_router(seedsRoutes)
 
 origin = [
     '*'
@@ -15,3 +19,4 @@ app.add_middleware(
     allow_methods=['*'],
     allow_headers=['*']
     )
+    

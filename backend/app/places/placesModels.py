@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Boolean
-from app.configDB import engine, Base
 
+from app.configDB import engine, Base
 
 class Places(Base):
     __tablename__ = "Places"
