@@ -36,7 +36,7 @@ export const SearchBar = () => {
                     <Select 
                         value={searchingFieldFilter}
                         onChange={onChangeSearchingFieldFilter}
-                        sx={{backgroundColor:"white", borderRadius:0, ".MuiSelect-filled":{backgroundColor:"white", ":selected":{backgroundColor:"white"}}}}  
+                        sx={{backgroundColor:"white", borderRadius:0, "& .MuiSelect-select":{backgroundColor:"white", ":focus":{backgroundColor:"white"}}}}  
                         labelId="search-for-label" defaultValue={FieldFilter.ALL}
                     >
                         <MenuItem value={FieldFilter.ALL}>Todos</MenuItem>
@@ -55,7 +55,7 @@ export const SearchBar = () => {
                     <Select 
                         onChange={onChangeVisitedFilter}
                         value={visitedFilter as string}
-                        sx={{backgroundColor:"white", borderRadius:0, ".MuiSelect-filled":{backgroundColor:"white", ":selected":{backgroundColor:"white"}}}}  
+                        sx={{backgroundColor:"white", borderRadius:0, "& .MuiSelect-select":{backgroundColor:"white", ":focus":{backgroundColor:"white"}}}}   
                         labelId="visited-filter-label" defaultValue={VisitedFilter.ALL as string} 
                     >
                         <MenuItem value={VisitedFilter.ALL}>Todos</MenuItem>
