@@ -13,13 +13,13 @@ async def getPlaces():
     places = session.query(Places)
     return places.all()    
 
-@placesRoutes.post("/add", tags=["Places"], response_model=str, description="Create a new place", status_code=status.HTTP_201_CREATED)
+@placesRoutes.post("/add", tags=["Places"], response_model=int, description="Create a new place", status_code=status.HTTP_201_CREATED)
 async def addPlace(payload: CreatePlace):
     payloadDict = payload.model_dump()    
     newPlace = Places(**payloadDict)         
     session.add(newPlace)
     session.commit()
-    return "place: '" + payloadDict["name"] + "' added"
+    return newPlace.id
 
 @placesRoutes.delete("/delete/{id}",  tags=["Places"], response_model=str, description="Delete a place by id", status_code=status.HTTP_200_OK)
 async def deletePlace(id: int ):
