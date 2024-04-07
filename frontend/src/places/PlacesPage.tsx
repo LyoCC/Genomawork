@@ -7,7 +7,7 @@ import { SortTable, SearchBar, Toolbar, PlaceModal } from "./components";
 
 
 export const PlacesPage = () => {
-    const {getAllPlaces, places, isLoadingData, visitedFilter, filterAllPlaces, placesFiltered, searchingTextFilter, searchingFieldFilter} = usePlacesStore();
+    const {getAllPlaces, places, isLoadingData, visitedFilter, filterAllPlaces, placesFiltered, searchingTextFilter, searchingFieldFilter, setPage} = usePlacesStore();
 
     useEffect(()=>{
       getAllPlaces()
@@ -15,6 +15,7 @@ export const PlacesPage = () => {
   
     useEffect(()=>{
       filterAllPlaces()
+      setPage(0)
     }, [places, searchingTextFilter, searchingFieldFilter])
 
   return (

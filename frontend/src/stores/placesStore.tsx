@@ -13,6 +13,7 @@ interface PlacesState{
     searchingTextFilter: string;
     searchingFieldFilter: FieldFilter;
     placesFiltered: Place[]
+    page: number;
     
     getAllPlaces: () => Promise<void>;
     updatePlace: (body: PlaceBodyUpdate , id: number) => Promise<void>;
@@ -25,7 +26,7 @@ interface PlacesState{
     setSearchingFieldFilter: (option: FieldFilter) => void;
     setSearchingText: (text: string) => void;
     filterAllPlaces: () => void;
-
+    setPage: (newPage: number) => void;
 }
 
 export const usePlacesStore = create<PlacesState>()((set: ( state: Partial<PlacesState> ) => void, get:() => PlacesState) => ({
@@ -33,12 +34,14 @@ export const usePlacesStore = create<PlacesState>()((set: ( state: Partial<Place
     isLoadingData: false,
     isModalEditMode: false,
     isModalOpen: false,
-    idToEdit: undefined,
+    idToEdit: undefined,    
 
     visitedFilter: VisitedFilter.ALL,
     searchingTextFilter: "",
     searchingFieldFilter: FieldFilter.ALL,
     placesFiltered: [],
+
+    page: 0,
 
     getAllPlaces: () => startLoadingPlaces(set, get),
     updatePlace: (body: PlaceBodyUpdate , id: number) => startUpdatingPLace(set, get, body, id),
@@ -51,6 +54,8 @@ export const usePlacesStore = create<PlacesState>()((set: ( state: Partial<Place
     setSearchingFieldFilter: (option: FieldFilter) => setSearchingFieldFilter(set, option),
     setSearchingText: (text: string) => setSearchingText(set, text),
     filterAllPlaces: () => filterAllPlaces(set, get),
+
+    setPage: (newPage: number) => setTablePage(set, newPage),
    
 }))
 
@@ -75,6 +80,10 @@ const filterAllPlaces = (set: ( state: Partial<PlacesState> ) => void, get:() =>
             return false
     })
     set({placesFiltered: placesFiltered})
+}
+
+const setTablePage = (set: ( state: Partial<PlacesState> ) => void, newPage: number) => {
+    set({page: newPage})
 }
 
 const setSearchingText = (set: ( state: Partial<PlacesState> ) => void, text: string) => {

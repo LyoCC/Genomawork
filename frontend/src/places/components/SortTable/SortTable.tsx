@@ -3,11 +3,12 @@ import { Box, Table, TableContainer, TablePagination, Paper } from "@mui/materia
 
 import { Place } from "../../../api/placesApi";
 import { SortTableHead, SortTableBody, Order} from "./";
+import { usePlacesStore } from "../../../stores/placesStore";
 
 export const SortTable = ({rows}:{rows: Place[]}) => {
+    const {page, setPage} = usePlacesStore()
     const [order, setOrder] = useState<Order>('asc');
     const [orderBy, setOrderBy] = useState<keyof Place>('name');
-    const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
   
     const handleRequestSort = ( event: unknown, property: keyof Place,) => {
