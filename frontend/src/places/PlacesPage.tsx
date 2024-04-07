@@ -1,21 +1,27 @@
 import { useEffect } from "react"
-import { Typography } from "@mui/material"
+import { Grid } from "@mui/material"
 
 import { usePlacesStore } from "../stores/placesStore";
-
-
+import { Loading } from "../components/Loading";
+import { SortTable, SearchBar, Toolbar, PlaceModal } from "./components";
 
 
 export const PlacesPage = () => {
-    const {getAllPlaces, places} = usePlacesStore();
+    const {getAllPlaces, places, isLoadingData} = usePlacesStore();
 
     useEffect(()=>{
         getAllPlaces()
     }, [])
 
   return (
-    <>           
-      <Typography>{JSON.stringify(places)}</Typography>
-    </>
+    <Grid container justifyContent={"center"}>
+        {isLoadingData?<Loading/>:false}
+        <PlaceModal/>
+        <Grid item xs={12} sm={12} md={10} lg={8} xl={8}>
+            <Toolbar/>
+            <SearchBar/>
+            <SortTable rows={places}/>
+        </Grid>
+    </Grid>
   )
 }

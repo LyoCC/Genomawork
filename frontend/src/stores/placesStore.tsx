@@ -5,18 +5,30 @@ import { placesApi, Place } from '../api/placesApi'
 interface PlacesState{
     places: Place[];
     isLoadingData: boolean;
+    isModalOpen: boolean;
+    isModalEditMode: boolean;
+    idToEdit: number | undefined;
     
     getAllPlaces: () => Promise<void>;
-}
+    setModalStatus: (modalStatus: boolean, editMode: boolean, id?: number) => void;
 
+}
 
 export const usePlacesStore = create<PlacesState>()((set: ( state: Partial<PlacesState> ) => void, get:() => PlacesState) => ({
     places: [],
     isLoadingData: false,
+    isModalEditMode: false,
+    isModalOpen: false,
+    idToEdit: undefined,
 
     getAllPlaces: () => startLoadingPlaces(set),
+    setModalStatus: (modalStatus: boolean, editMode: boolean, id?: number) => setModalStatus(set, modalStatus, editMode, id),
    
 }))
+
+const setModalStatus = (set: ( state: Partial<PlacesState> ) => void, modalStatus: boolean, editMode: boolean, id?: number) => {
+    set({isModalEditMode: editMode, isModalOpen: modalStatus, idToEdit:id})
+}
 
 const startLoadingPlaces = async (set: ( state: Partial<PlacesState> ) => void) => {
     set({ isLoadingData: true });             
