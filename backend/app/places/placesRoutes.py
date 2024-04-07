@@ -1,4 +1,4 @@
-from fastapi import APIRouter, status, HTTPException
+from fastapi import APIRouter, status, HTTPException, Query
 from typing import List
 
 from app.configDB import session
@@ -12,6 +12,11 @@ placesRoutes = APIRouter(prefix="/places/api/v1")
 async def getPlaces():
     places = session.query(Places)
     return places.all()    
+
+@placesRoutes.get("/visited", tags=["Places"], response_model=List[Place], description="Get all places visited or unvisited")
+async def getVisited(option: bool = Query(True, description="Filter places true:return all visited and false: return all unvisted/ default true")):       
+    places = session.query(Places).filter(Places.visited == option)
+    return places.all()  
 
 @placesRoutes.post("/add", tags=["Places"], response_model=int, description="Create a new place", status_code=status.HTTP_201_CREATED)
 async def addPlace(payload: CreatePlace):
