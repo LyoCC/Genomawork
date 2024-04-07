@@ -2,9 +2,15 @@ import { TableBody, TableRow, TableCell, Checkbox } from "@mui/material";
 
 import {SortTableBodyProps} from "./types"
 import { usePlacesStore } from "../../../stores/placesStore";
+import { PlaceBodyUpdate } from "../../../api/placesApi";
 
 export const SortTableBody = (props: SortTableBodyProps) => {
-    const {setModalStatus} = usePlacesStore()
+    const {setModalStatus, updatePlace} = usePlacesStore()
+
+    const setVisited = (event: React.MouseEvent<HTMLElement> , id: number, visited: boolean) => {
+      event.stopPropagation()
+      updatePlace({visited: !visited} as PlaceBodyUpdate, id);      
+    }
 
     return(
             <TableBody>
@@ -18,7 +24,7 @@ export const SortTableBody = (props: SortTableBodyProps) => {
                       key={row.id}
                       sx={{ "&:hover":{backgroundColor:"#fbdce8 !important" } }}
                     >                  
-                      <TableCell align="center" padding="checkbox">
+                      <TableCell align="center" padding="checkbox" onClick={(event) => setVisited(event, row.id, row.visited)}>
                         <Checkbox
                             color="primary"
                             checked={row.visited}
