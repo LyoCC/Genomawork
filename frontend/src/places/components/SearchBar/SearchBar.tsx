@@ -1,12 +1,31 @@
-import { Grid, FormControl, InputLabel, TextField, Select, MenuItem} from "@mui/material"
+import { Grid, FormControl, InputLabel, TextField, Select, MenuItem, SelectChangeEvent} from "@mui/material"
 
+import { usePlacesStore } from "../../../stores/placesStore"
 import {FieldFilter, VisitedFilter} from "./types"
 
 export const SearchBar = () => {
+    const {setVisitedFilter, visitedFilter, searchingTextFilter, setSearchingText, searchingFieldFilter, setSearchingFieldFilter} = usePlacesStore()
+
+    const onChangeVisitedFilter = (event: SelectChangeEvent<HTMLInputElement>) => {
+        const option: VisitedFilter = event.target.value as VisitedFilter
+        setVisitedFilter(option)
+    }
+    const onChangeSearchingFieldFilter = (event: SelectChangeEvent<HTMLInputElement>) => {
+        const option: FieldFilter = event.target.value as FieldFilter
+        setSearchingFieldFilter(option)
+    }
+
+    const onChangeSearchingText = (event: React.ChangeEvent<HTMLInputElement>) =>{
+        const text = event.target.value
+        setSearchingText(text)
+    }
+
     return(
         <Grid container sx={{backgroundColor:"#f175a5"}}>
             <Grid item xs={6} sm={6} md={3} lg={3} xl={3}>
                 <TextField 
+                    value={searchingTextFilter}
+                    onChange={onChangeSearchingText}
                     fullWidth label="Buscar" variant="filled" color='primary' 
                     sx={{ backgroundColor:"white"}} 
                 /> 
@@ -15,6 +34,8 @@ export const SearchBar = () => {
                 <FormControl variant="filled" fullWidth>
                     <InputLabel id="search-for-label">Buscar por:</InputLabel>
                     <Select 
+                        value={searchingFieldFilter}
+                        onChange={onChangeSearchingFieldFilter}
                         sx={{backgroundColor:"white", borderRadius:0, ".MuiSelect-filled":{backgroundColor:"white", ":selected":{backgroundColor:"white"}}}}  
                         labelId="search-for-label" defaultValue={FieldFilter.ALL}
                     >
@@ -32,6 +53,8 @@ export const SearchBar = () => {
             <FormControl variant="filled" fullWidth>
                     <InputLabel id="visited-filter-label">Mostrar</InputLabel>
                     <Select 
+                        onChange={onChangeVisitedFilter}
+                        value={visitedFilter as string}
                         sx={{backgroundColor:"white", borderRadius:0, ".MuiSelect-filled":{backgroundColor:"white", ":selected":{backgroundColor:"white"}}}}  
                         labelId="visited-filter-label" defaultValue={VisitedFilter.ALL as string} 
                     >

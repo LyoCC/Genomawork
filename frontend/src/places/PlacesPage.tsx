@@ -7,11 +7,15 @@ import { SortTable, SearchBar, Toolbar, PlaceModal } from "./components";
 
 
 export const PlacesPage = () => {
-    const {getAllPlaces, places, isLoadingData} = usePlacesStore();
+    const {getAllPlaces, places, isLoadingData, visitedFilter, filterAllPlaces, placesFiltered, searchingTextFilter, searchingFieldFilter} = usePlacesStore();
 
     useEffect(()=>{
-        getAllPlaces()
-    }, [])
+      getAllPlaces()
+    }, [visitedFilter])
+  
+    useEffect(()=>{
+      filterAllPlaces()
+    }, [places, searchingTextFilter, searchingFieldFilter])
 
   return (
     <Grid container justifyContent={"center"}>
@@ -20,7 +24,7 @@ export const PlacesPage = () => {
         <Grid item xs={12} sm={12} md={10} lg={8} xl={8}>
             <Toolbar/>
             <SearchBar/>
-            <SortTable rows={places}/>
+            <SortTable rows={placesFiltered}/>
         </Grid>
     </Grid>
   )
